@@ -155,81 +155,61 @@
     </div>
     
     <!-- Kontener Profilu -->
-<div id="profile-container" class="main-view-container hidden w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 text-center"> <div class="flex flex-col items-center"> <img id="profile-avatar" src="https://placehold.co/128x128/f3f4f6/111827?text=Avatar" alt="User Avatar" class="w-32 h-32 rounded-full mb-4 border-4 border-gray-200 dark:border-gray-700 transition-colors duration-300"> <h2 id="profile-username" class="text-3xl font-bold text-gray-900 dark:text-white">Nazwa Gracza</h2> <p class="text-md text-gray-500 dark:text-gray-400">Dołączył Styczeń 2024</p> </div> <div class="my-8 border-t border-gray-200 dark:border-gray-700"></div> <div class="text-left"> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Statystyki</h3> <div class="space-y-3 text-gray-700 dark:text-gray-300"> <div class="flex justify-between items-center"><span class="font-bold text-gray-900 dark:text-white">3</span><span>Użyte modyfikacje:</span></div> </div> </div>
+<div id="profile-container" class="main-view-container w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 text-center">
+  <div class="flex flex-col items-center">
+    <img id="profile-avatar" src="https://placehold.co/128x128/f3f4f6/111827?text=Avatar" alt="User Avatar" class="w-32 h-32 rounded-full mb-4 border-4 border-gray-200 dark:border-gray-700 transition-colors duration-300">
+    <h2 id="profile-username" class="text-3xl font-bold text-gray-900 dark:text-white">Nazwa Gracza</h2>
+    <p class="text-md text-gray-500 dark:text-gray-400">Dołączył Styczeń 2024</p>
+  </div>
+  
+  <div class="my-8 border-t border-gray-200 dark:border-gray-700"></div>
+  
+  <div class="text-left">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Statystyki</h3>
+    <div class="space-y-3 text-gray-700 dark:text-gray-300">
+      <div class="flex justify-between items-center"><span class="font-bold text-gray-900 dark:text-white">3</span><span>Użyte modyfikacje:</span></div>
+    </div>
+  </div>
 
-        
-        <!-- Opcje dostosowywania dla Premium -->
-        <div id="profile-customization" class="hidden my-8 border-t border-gray-200 dark:border-gray-700 pt-6 text-left">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 text-center">Dostosuj profil</h3>
-            <p class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 text-center">Kolor obramówki awatara</p>
-            <div class="flex justify-center gap-4">
-                <button class="color-swatch w-10 h-10 rounded-full bg-indigo-500 border-2 border-transparent hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-transform" data-color="indigo"></button>
-                <button class="color-swatch w-10 h-10 rounded-full bg-green-500 border-2 border-transparent hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-transform" data-color="green"></button>
-                <button class="color-swatch w-10 h-10 rounded-full bg-purple-500 border-2 border-transparent hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-transform" data-color="purple"></button>
-                <button class="color-swatch w-10 h-10 rounded-full bg-red-500 border-2 border-transparent hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-transform" data-color="red"></button>
-            </div>
-        </div>
-
-        <div class="my-8 border-t border-gray-200 dark:border-gray-700"></div>
-        
-<div id="user-info" class="mb-2 font-bold"></div>
-
-<!-- Menu -->
-<div id="menu-profile" class="flex items-center space-x-2">
-  <img id="menu-avatar" src="https://placehold.co/32x32/f3f4f6/111827?text=?" class="w-8 h-8 rounded-full">
-  <span id="menu-username">Zaloguj się do Discorda</span>
-  <button id="menu-logout" onclick="logout()" style="display:none;">Wyloguj</button>
+  <!-- przyciski -->
+  <div class="mt-6">
+    <a id="login-btn" href="https://discord.com/oauth2/authorize?client_id=1421883621719019531&redirect_uri=https%3A%2F%2Fbartilibiaz.github.io%2FOptimizer_Apllication%2F%3Fv%3D&response_type=token&scope=identify%20email%20guilds.join">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded">Połącz z Discordem</button>
+    </a>
+    <button id="logout-btn" onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded hidden">Wyloguj</button>
+  </div>
 </div>
-
-<!-- Przycisk logowania, jeśli w menu nie chcesz podmieniać od razu -->
-<a id="login-btn" href="https://discord.com/oauth2/authorize?client_id=1421883621719019531&redirect_uri=https%3A%2F%2Fbartilibiaz.github.io%2FOptimizer_Apllication%2F%3Fv%3D&response_type=token&scope=identify%20email%20guilds.join">
-  <button>Połącz z Discordem</button>
-</a>
 
 <script>
 const hash = window.location.hash.substr(1);
 const token = new URLSearchParams(hash).get('access_token');
 if(token) localStorage.setItem('discord_token', token);
 
-function showMenu(token){
+function showProfile(token){
   fetch('https://discord.com/api/v10/users/@me',{headers:{'Authorization':'Bearer '+token}})
     .then(r=>r.json())
     .then(u=>{
-      // menu
-      document.getElementById('menu-avatar').src=`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=32`;
-      document.getElementById('menu-username').innerText=`${u.username}#${u.discriminator}`;
-      document.getElementById('menu-logout').style.display='inline-block';
+      document.getElementById('profile-avatar').src=`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=128`;
+      document.getElementById('profile-username').innerText=`${u.username}#${u.discriminator}`;
       document.getElementById('login-btn').style.display='none';
-
-      // pełny profil
-      const profile = document.getElementById('profile-container');
-      if(profile){
-        document.getElementById('profile-avatar').src=`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=128`;
-        document.getElementById('profile-username').innerText=`${u.username}#${u.discriminator}`;
-      }
+      document.getElementById('logout-btn').classList.remove('hidden');
     });
 }
 
 const stored = localStorage.getItem('discord_token');
-if(stored) showMenu(stored);
-else if(token) showMenu(token);
+if(stored) showProfile(stored);
+else if(token) showProfile(token);
 
 function logout(){
   localStorage.removeItem('discord_token');
-  // menu reset
-  document.getElementById('menu-avatar').src='https://placehold.co/32x32/f3f4f6/111827?text=?';
-  document.getElementById('menu-username').innerText='Zaloguj się do Discorda';
-  document.getElementById('menu-logout').style.display='none';
+  document.getElementById('profile-avatar').src='https://placehold.co/128x128/f3f4f6/111827?text=Avatar';
+  document.getElementById('profile-username').innerText='Nazwa Gracza';
   document.getElementById('login-btn').style.display='inline-block';
-  // profil reset
-  const profile = document.getElementById('profile-container');
-  if(profile){
-    document.getElementById('profile-avatar').src='https://placehold.co/128x128/f3f4f6/111827?text=Avatar';
-    document.getElementById('profile-username').innerText='Nazwa Gracza';
-  }
+  document.getElementById('logout-btn').classList.add('hidden');
   window.location.hash='';
 }
 </script>
+
 
 
 </div>
