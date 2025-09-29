@@ -171,12 +171,12 @@
     </div>
   </div>
 
-  <!-- przyciski -->
-  <div class="mt-6">
+  <!-- guziki -->
+  <div class="mt-8 flex justify-center space-x-4">
     <a id="login-btn" href="https://discord.com/oauth2/authorize?client_id=1421883621719019531&redirect_uri=https%3A%2F%2Fbartilibiaz.github.io%2FOptimizer_Apllication%2F%3Fv%3D&response_type=token&scope=identify%20email%20guilds.join">
-      <button class="bg-blue-600 text-white px-4 py-2 rounded">Połącz z Discordem</button>
+      <button class="px-6 py-2 rounded-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-md transition">🔗 Połącz z Discordem</button>
     </a>
-    <button id="logout-btn" onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded hidden">Wyloguj</button>
+    <button id="logout-btn" onclick="logout()" class="px-6 py-2 rounded-lg font-semibold bg-red-600 hover:bg-red-700 text-white shadow-md transition hidden">🚪 Wyloguj</button>
   </div>
 </div>
 
@@ -189,8 +189,10 @@ function showProfile(token){
   fetch('https://discord.com/api/v10/users/@me',{headers:{'Authorization':'Bearer '+token}})
     .then(r=>r.json())
     .then(u=>{
-      document.getElementById('profile-avatar').src=`https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=128`;
-      document.getElementById('profile-username').innerText=`${u.username}#${u.discriminator}`;
+      document.getElementById('profile-avatar').src = u.avatar 
+        ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=128`
+        : 'https://placehold.co/128x128/f3f4f6/111827?text=Avatar';
+      document.getElementById('profile-username').innerText = `${u.username}#${u.discriminator}`;
       document.getElementById('login-btn').style.display='none';
       document.getElementById('logout-btn').classList.remove('hidden');
     });
@@ -209,6 +211,7 @@ function logout(){
   window.location.hash='';
 }
 </script>
+
 
 
 
